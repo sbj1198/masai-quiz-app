@@ -29,3 +29,10 @@ export const getQuizQuestions =
         });
       });
   };
+
+export const submitQuiz = (count) => (dispatch) => {
+  dispatch({ type: types.QUIZ_OPTION_REQUEST });
+  count
+    ? dispatch({ type: types.QUIZ_OPTION_SUCCESS, payload: count })
+    : dispatch({ type: types.QUIZ_OPTION_FAILURE });
+};
