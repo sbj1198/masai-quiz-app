@@ -15,7 +15,7 @@ export const getQuizQuestions =
     dispatch({ type: types.QUIZ_SETUP_REQUEST });
     return axios
       .get(
-        `https://opentdb.com/api.php?amount=${number_of_ques}&category=${cat}&difficulty=${difficulty_level}&type=multiple`
+        `https://opentdb.com/api.php?amount=${number_of_ques}&category=${cat}&difficulty=${difficulty_level}&type=multiple&encode=urlLegacy`
       )
       .then((res) => {
         dispatch({

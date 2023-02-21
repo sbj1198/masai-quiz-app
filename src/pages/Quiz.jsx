@@ -4,14 +4,22 @@ import { useSelector } from "react-redux";
 
 export const Quiz = () => {
   const questions = useSelector((store) => store.AppReducer.questions);
-  const [next, setNext] = useState(false);
-  const [curr, setCurr] = useState(1);
-  const [prev, setPrev] = useState(false);
+  const [curr, setCurr] = useState(0);
   const total = questions.length;
 
-  // useEffect(() => {
-  //   questions[curr]
-  // }, [])
+  const nextHandler = () => {
+    if (curr < total - 1) {
+      setCurr(curr + 1);
+    }
+  };
+
+  const submitHandler = () => {};
+
+  const previousHandler = () => {
+    if (curr > 0) {
+      setCurr(curr - 1);
+    }
+  };
 
   return (
     <Box maxW="800px" margin="auto" mt="20px" bgColor="#6b5cd5" color="white">
@@ -19,32 +27,61 @@ export const Quiz = () => {
         <Box display="inline-flex" mb="20px">
           <Flex alignItems="center" flexWrap="wrap">
             <Heading as="h4" size="md">
-              {questions[curr]?.question}
+              {decodeURIComponent(questions[curr]?.question)
+                .split("+")
+                .join(" ")}
             </Heading>
           </Flex>
           <Spacer />
-          <Text as="span">{`${curr} of ${total}`}</Text>
+          <Text as="span">{`${curr + 1} of ${total}`}</Text>
         </Box>
         <Button variant="outline" mb="10px" _hover={{ bgColor: "#5244bb" }}>
-          {questions[curr]?.correct_answer}
+          {decodeURIComponent(questions[curr]?.correct_answer)
+            .split("+")
+            .join(" ")}
         </Button>
         <Button variant="outline" mb="10px" _hover={{ bgColor: "#5244bb" }}>
-          {questions[curr]?.incorrect_answers[0]}
+          {decodeURIComponent(questions[curr]?.incorrect_answers[0])
+            .split("+")
+            .join(" ")}
         </Button>
         <Button variant="outline" mb="10px" _hover={{ bgColor: "#5244bb" }}>
-          {questions[curr]?.incorrect_answers[1]}
+          {decodeURIComponent(questions[curr]?.incorrect_answers[1])
+            .split("+")
+            .join(" ")}
         </Button>
         <Button variant="outline" _hover={{ bgColor: "#5244bb" }}>
-          {questions[curr]?.incorrect_answers[2]}
+          {decodeURIComponent(questions[curr]?.incorrect_answers[2])
+            .split("+")
+            .join(" ")}
         </Button>
       </Flex>
       <Flex justifyContent="center" pb="20px">
-        <Button variant="outline" mr="10px" _hover={{ bgColor: "#5244bb" }}>
-          NEXT
-        </Button>
-        <Button variant="outline" _hover={{ bgColor: "#5244bb" }}>
+        <Button
+          variant="outline"
+          mr="10px"
+          _hover={{ bgColor: "#5244bb" }}
+          onClick={previousHandler}
+        >
           PREVIOUS
         </Button>
+        {curr === total - 1 ? (
+          <Button
+            variant="outline"
+            _hover={{ bgColor: "#5244bb" }}
+            onClick={submitHandler}
+          >
+            SUBMIT
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            _hover={{ bgColor: "#5244bb" }}
+            onClick={nextHandler}
+          >
+            NEXT
+          </Button>
+        )}
       </Flex>
     </Box>
   );
